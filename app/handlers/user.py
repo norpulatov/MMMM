@@ -145,12 +145,12 @@ async def about_handler(event: Message | CallbackQuery) -> None:
     text = (
         "🤖 <b>Bot haqida</b>\n\n"
         "Bu bot siz ko'rmoqchi bo'lgan deyarli barcha kinolarni taqdim etadi.\n"
-        "📌 Kino qidirish, ro‘yxatdan o‘tish va tomosha qilish – hammasi shu yerda.\n\n"
+        "📌 Kino qidirish va tomosha qilish – hammasi shu yerda.\n\n"
         "🔍 /movies – barcha kinolar\n"
         "🔎 /search – kino qidirish\n"
         "🎬 /movie &lt;raqam&gt; – kino haqida ma'lumot\n\n"
         "👨‍💻 Admin: @drjavokh\n"
-        "© @Mokgrowbot"
+        
     )
     if isinstance(event, CallbackQuery):
         await event.message.answer(text, parse_mode="HTML")
