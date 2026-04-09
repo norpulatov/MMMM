@@ -34,10 +34,11 @@ async def start_handler(
             return
 
     await message.answer(
-        "Welcome to the Movie Library Bot!\n"
-        "Use /movies to browse, /search to find titles, or /movie <number>.",
-        reply_markup=main_menu_keyboard(),
-    )
+    "Welcome to the Movie Library Bot!\n"
+    "Use /movies to browse, /search to find titles, or /movie <number>.",
+    reply_markup=main_menu_keyboard(),
+    parse_mode=None
+)
 
 
 @router.message(Command("movies"))
