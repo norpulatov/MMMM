@@ -53,7 +53,7 @@ async def start_with_deeplink(message: Message, command: CommandObject, session:
 @router.message(CommandStart())
 async def start_cmd(message: Message, session: AsyncSession) -> None:
     await crud.create_or_update_user(session, user_id=message.from_user.id, username=message.from_user.username, first_name=message.from_user.first_name or "Foydalanuvchi")
-    await message.answer("Assalomu alaykum! Kino kutubxonasiga xush kelibsiz.", reply_markup=main_menu_keyboard())
+    await message.answer("Assalomu alaykum! Maroqli tomosha tilayman😎.")
     await message.answer("Asosiy menyu:", reply_markup=user_main_inline())
 
 
