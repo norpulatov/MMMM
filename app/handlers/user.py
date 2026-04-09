@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import get_settings
 from app.db import crud
 from app.keyboards.inline import movies_page_keyboard, user_main_inline, watch_button
-from app.keyboards.reply import main_menu_keyboard
+#from app.keyboards.reply import main_menu_keyboard
 from app.utils.helpers import format_movie_details
 
 router = Router()
@@ -44,7 +44,7 @@ async def start_with_deeplink(message: Message, command: CommandObject, session:
         if not movie:
             await message.answer("Kechirasiz, bu kino mavjud emas.")
             return
-        await message.answer_video(video=movie.file_id, caption=f"🎬 #{movie.movie_number} - {movie.title}")
+        await message.answer_video(video=movie.file_id, caption=f"🎬 {movie.movie_number} - {movie.title}")
         await crud.increment_movie_views(session, n)
         return
     await message.answer("Noto'g'ri havola. /start buyrug'idan foydalaning.")
@@ -126,7 +126,7 @@ async def search_cmd(message: Message, command: CommandObject, session: AsyncSes
     elif len(movies) == 1:
         await _send_movie_details(message, session, movies[0].movie_number)
     else:
-        await message.answer("Topilgan kinolar:\n" + "\n".join(f"#{m.movie_number} - {m.title}" for m in movies[:20]))
+        await message.answer("Topilgan kinolar:\n" + "\n".join(f"{m.movie_number} - {m.title}" for m in movies[:20]))
 
 
 @router.message(F.text == "🎬 Kinolar ro'yxati")
