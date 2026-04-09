@@ -142,7 +142,7 @@ async def text_search_help(message: Message) -> None:
 @router.message(F.text == "ℹ️ Bot haqida")
 @router.callback_query(F.data == "help:about")
 async def about_handler(event: Message | CallbackQuery) -> None:
-    text = "Bu bot kino kutubxonasi uchun yaratilgan."
+    text = "Bu bot siz ko'rmoqchi bo'lgan deyarli barcha narsalarni ko'rsatadi. Albatta botda mavjud bo'lsa/)."
     if isinstance(event, CallbackQuery):
         await event.message.answer(text)
         await event.answer()
