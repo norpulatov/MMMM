@@ -123,7 +123,7 @@ async def _finalize_movie(
     file_id = data["file_id"]
     next_number = await crud.get_next_movie_number(session)
     deep_link = f"https://t.me/{settings.bot_username}?start=watch_{next_number}"
-    text = f"🎬 #{next_number} - {title}"
+    text = f"🎬 {next_number} - {title}"
     if description:
         text += f"\n\n📝 {description}"
 
