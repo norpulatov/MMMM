@@ -142,13 +142,21 @@ async def text_search_help(message: Message) -> None:
 @router.message(F.text == "ℹ️ Bot haqida")
 @router.callback_query(F.data == "help:about")
 async def about_handler(event: Message | CallbackQuery) -> None:
-    text = "Bu bot siz ko'rmoqchi bo'lgan deyarli barcha narsalarni ko'rsatadi. Albatta botda mavjud bo'lsa/)."
+    text = (
+        "🤖 **Bot haqida**\n\n"
+        "Bu bot siz ko'rmoqchi bo'lgan deyarli barcha kinolarni taqdim etadi.\n"
+        "📌 Kino qidirish, ro‘yxatdan o‘tish va tomosha qilish – hammasi shu yerda.\n\n"
+        "🔍 /movies – barcha kinolar\n"
+        "🔎 /search – kino qidirish\n"
+        "🎬 /movie <raqam> – kino haqida ma'lumot\n\n"
+        "👨‍💻 Admin: @drjavokh\n"
+        "© @Mokgrowbot"
+    )
     if isinstance(event, CallbackQuery):
-        await event.message.answer(text)
+        await event.message.answer(text, parse_mode="MarkdownV2")
         await event.answer()
     else:
-        await event.answer(text)
-
+        await event.answer(text, parse_mode="MarkdownV2")
 
 @router.callback_query(F.data == "help:search")
 async def search_help_callback(call: CallbackQuery) -> None:
