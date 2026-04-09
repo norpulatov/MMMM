@@ -1,4 +1,4 @@
-﻿from aiogram import F, Router
+from aiogram import F, Router
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -156,6 +156,6 @@ async def search_help_callback(call: CallbackQuery) -> None:
     await call.answer()
 
 
-@router.message(F.text)
+@router.message(F.text & ~F.text.startswith("/"))
 async def fallback_text(message: Message) -> None:
     await message.answer("Buyruq tushunarsiz. /start yoki /movies dan foydalaning.")
