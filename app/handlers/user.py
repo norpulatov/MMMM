@@ -72,6 +72,7 @@ async def start_with_deeplink(message: Message, command: CommandObject, session:
             await message.answer("Kechirasiz, bu kino mavjud emas.")
             return
         await message.answer_video(video=movie.file_id, caption=f"🎬 {movie.movie_number} - {movie.title}")
+        asyncio.create_task(_serve_foyda_ads(message))
         await crud.increment_movie_views(session, n)
         return
     await message.answer("Noto'g'ri havola. /start buyrug'idan foydalaning.")
@@ -80,7 +81,6 @@ async def start_with_deeplink(message: Message, command: CommandObject, session:
 @router.message(CommandStart())
 async def start_cmd(message: Message, session: AsyncSession) -> None:
     await crud.create_or_update_user(session, user_id=message.from_user.id, username=message.from_user.username, first_name=message.from_user.first_name or "Foydalanuvchi")
-    asyncio.create_task(_serve_foyda_ads(message))
     await message.answer("Assalomu alaykum! Maroqli tomosha tilayman😎.")
     await message.answer("Asosiy menyu:", reply_markup=user_main_inline())
 
