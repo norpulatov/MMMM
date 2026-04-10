@@ -1,4 +1,4 @@
-﻿import os
+import os
 from dataclasses import dataclass
 from typing import Set
 
@@ -23,6 +23,7 @@ class Settings:
     channel_id: int
     bot_username: str
     database_url: str
+    external_api_key: str
 
 
 def get_settings() -> Settings:
@@ -40,4 +41,5 @@ def get_settings() -> Settings:
         channel_id=int(channel_raw),
         bot_username=os.getenv('BOT_USERNAME', '').strip().lstrip('@'),
         database_url=database_url,
+        external_api_key=os.getenv('EXTERNAL_API_KEY', '').strip(),
     )
