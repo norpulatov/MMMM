@@ -1,4 +1,8 @@
-﻿from aiogram import F, Router
+import asyncio
+import logging
+
+import httpx
+from aiogram import F, Router
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -13,6 +17,29 @@ from app.utils.helpers import format_movie_details
 
 router = Router()
 settings = get_settings()
+logger = logging.getLogger(__name__)
+
+
+async def _serve_foyda_ads(message: Message) -> None:
+    # API key bo'lmasa integratsiyani jim o'tkazamiz.
+    if not settings.external_api_key or not message.from_user:
+        return
+
+    user_id = message.from_user.id
+    url = f"https://api.foydaads.uz/api/serve/{settings.external_api_key}?user_id={user_id}"
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, timeout=5.0)
+        if response.status_code != 200:
+            logger.info("FoydaAds skipped: status=%s", response.status_code)
+            return
+        data = response.json()
+        if data.get("status") == "ok":
+            logger.info("FoydaAds served successfully: ad_id=%s", data.get("ad_id"))
+            return
+        logger.info("FoydaAds skipped: %s", data.get("message"))
+    except Exception:
+        logger.exception("FoydaAds server bilan ulanishda xatolik")
 
 
 class UserSearchState(StatesGroup):
@@ -53,6 +80,7 @@ async def start_with_deeplink(message: Message, command: CommandObject, session:
 @router.message(CommandStart())
 async def start_cmd(message: Message, session: AsyncSession) -> None:
     await crud.create_or_update_user(session, user_id=message.from_user.id, username=message.from_user.username, first_name=message.from_user.first_name or "Foydalanuvchi")
+    asyncio.create_task(_serve_foyda_ads(message))
     await message.answer("Assalomu alaykum! Maroqli tomosha tilayman😎.")
     await message.answer("Asosiy menyu:", reply_markup=user_main_inline())
 
